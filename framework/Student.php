@@ -20,13 +20,50 @@ namespace framework {
             }
         }
 
-        public function bulcCreate($fname, $sname, $male, $age, $group, $faculty) {
+        public function getAll() {
+            $st = $this->db->prepare("SELECT * FROM student");
+            $st->execute();
+            return $st->fetchAll(PDO::FETCH_ASSOC);
+        }
 
+        public function create($data) {
+            $sql = "INSERT INTO student (fname, sname,".
+                       "male ,age, group_univer, faculty) ".
+                       "VALUES (:fname, :sname, :male, :age, :group, :faculty)";
+            $statement = $this->db->prepare($sql);
+            $statement->execute(
+                  array(':fname' => $data['fname'],
+                      ':sname' => $data['sname'],
+                      ':male' => $data['male'],
+                      ':age' => $data['age'],
+                      ':group' => $data['group_univer'],
+                      ':faculty' => $data['faculty']
+                 ));
+            $this->id = $this->db->lastInsertId();
+        }
+        public  function remove($data) {
+            $sql = "delete from student where id = :id";
+            $statement = $this->db->prepare($sql);
+            $statement->execute(array(':id' => $data['id']));
         }
         public  function loadStudent($id) {
             $this->id = $id;
         }
 
+        public function update($data) {
+            $sql = "UPDATE student SET fname=:fnamr, sname=:sname, ".
+            "male=:male, age=:age, group_univer=:group_univer, faculty=:faculty WHERE id=:id";
+            $statement = $this->db->prepare($sql);
+            $statement->execute(
+                array(':fname' => $data['fname'],
+                    ':sname' => $data['sname'],
+                    ':male' => $data['male'],
+                    ':age' => $data['age'],
+                    ':group' => $data['group_univer'],
+                    ':faculty' => $data['faculty'],
+                    ':id' => $data['id']
+                ));
+        }
         private function getInfo($name) {
             if($this->id) {
                 $sql = 'select '.$name.' from student where id = :id';

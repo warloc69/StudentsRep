@@ -1,25 +1,29 @@
 <?php
 namespace src\Student;
 use framework;
-class Controller
+class controller
 {
     public function showStudent()
     {
-
+        header('Location: /web/index.php');
     }
-    public function removeStudent($id)
+    public function removeStudent($data)
     {
-
+        error_log("controller remove student");
+        $re = new framework\Student('root','root');
+        $re->remove($data);
     }
-    public function addStudent()
+    public function addStudent($data)
     {
         error_log("controller add student");
         $re = new framework\Student('root','root');
-        // $_REQUEST["first_name"]
-    }
-    public function editStudent($id)
-    {
+        $re->create($data);
 
+    }
+    public function editStudent($data)
+    {
+        $re = new framework\Student('root','root');
+        $re->update($data);
     }
 
 

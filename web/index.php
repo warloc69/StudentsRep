@@ -1,10 +1,13 @@
 <?php
 require_once("../framework/Loader.php");
-$r = new src\Student\Controller();
-$r->addStudent();
+//$r = new src\Student\Controller();
+//$r->addStudent();
 //require_once("../framework/Student.php");
 //include "../framework/Student.php";
- //   $re = new framework\Student('root','root');
+    $re = new framework\Student('root','root');
+$all = $re->getAll();
+print_r($all);
+//$re->createStudent("test","strst","men",12,"ssss","wasda");
    // $re->id = 1;
    // echo $re->getFname();
 // $re->setFname("curvam25");
@@ -12,5 +15,13 @@ $r->addStudent();
 //echo $re->id;
 // echo uniqid();
   //  echo phpinfo();
-   \framework\Route::execute();
+
+$r = new \framework\Request();
+ print_r($r->data);
+//print_r($_REQUEST);
+//print_r($_SERVER);
+//print_r($_POST);
+
+ include_once "Renderer.php";
+   \framework\Route::execute($r);
 	?>
