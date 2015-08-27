@@ -24,9 +24,8 @@
            </tr>
        </thead>
         <tbody>
-
                 <?php
-                $re = new framework\Student('root','root');
+                $re = new framework\Student(\framework\db::connect());
                 $all = $re->getAll();
                 foreach($all as $k=>$v) {
                     echo '<tr>';
@@ -39,13 +38,18 @@
                         }
                     }
                     echo '<td>'."<a href=\"../controller/removeStudent?id=".$id.'">X</a></td>';
-                    echo '<td>'."<a href=\"../controller/editStudent?id=".$id.'">Edit</a></td>';
+                    echo '<td>'."<a href=\"../controller/editView?id=".$id.'">Edit</a></td>';
                     echo '</tr>';
                 }
                 ?>
         </tbody>
         </table>
-        <?php include "StudentCreator.php"; ?>
+        <?php
+          if($r->data['action'] == 'editView') {
+              include "StudentEditor.php";
+          } else
+              include "StudentCreator.php";
+        ?>
 
 </body>
 </html>

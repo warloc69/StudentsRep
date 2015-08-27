@@ -1,29 +1,28 @@
 <?php
 namespace framework {
-    use PDO;
     class Student
     {
-        private $db;
+        public $db;
         public $id;
-        private $fname;
-        private $sname;
-        private $male;
-        private $age;
-        private $group;
-        private $faculty;
-        function __construct($name,$pass){
-            $this->db = new PDO('mysql:host=localhost;dbname=students', $name, $pass);
-            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            if (!$this->db) {
-                $err=$this->db->errorInfo();
-                throw new Exception('Could not connect: ' . $err[2]);
-            }
+        public $fname;
+        public $sname;
+        public $male;
+        public $age;
+        public $group_univer;
+        public $faculty;
+        function __construct($db){
+            $this->db = $db;
         }
 
-        public function getAll() {
+        public function getAll(){
             $st = $this->db->prepare("SELECT * FROM student");
             $st->execute();
-            return $st->fetchAll(PDO::FETCH_ASSOC);
+            return $st->fetchAll(\PDO::FETCH_ASSOC);
+        }
+        public function find($data) {
+            $st = $this->db->prepare("SELECT * FROM student where id=:id");
+            $st->execute (array(':id' => $data['id']));
+            return $st->fetchALL(\PDO::FETCH_CLASS, 'framework\\Student',array($this->db));
         }
 
         public function create($data) {
@@ -51,7 +50,7 @@ namespace framework {
         }
 
         public function update($data) {
-            $sql = "UPDATE student SET fname=:fnamr, sname=:sname, ".
+            $sql = "UPDATE student SET fname=:fname, sname=:sname, ".
             "male=:male, age=:age, group_univer=:group_univer, faculty=:faculty WHERE id=:id";
             $statement = $this->db->prepare($sql);
             $statement->execute(
@@ -59,7 +58,7 @@ namespace framework {
                     ':sname' => $data['sname'],
                     ':male' => $data['male'],
                     ':age' => $data['age'],
-                    ':group' => $data['group_univer'],
+                    ':group_univer' => $data['group_univer'],
                     ':faculty' => $data['faculty'],
                     ':id' => $data['id']
                 ));
