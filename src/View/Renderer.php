@@ -25,7 +25,11 @@
        </thead>
         <tbody>
                 <?php
-                $re = new src\Model\Student(\framework\db::connect());
+                $re = new src\Model\Student(\framework\db::connect(
+                    \framework\ConfigHolder::getConfig('connection_string'),
+                    \framework\ConfigHolder::getConfig('user'),
+                    \framework\ConfigHolder::getConfig('pass')
+                ));
                 $all = $re->getAll();
                 foreach($all as $k=>$v) {
                     echo '<tr>';
@@ -51,7 +55,7 @@
         </tbody>
         </table>
         <?php
-          if($r->data['action'] == 'editView') {
+          if(isset($r->data['action']) && $r->data['action'] == 'editView') {
               include "StudentEditor.php";
           }
         include "StudentCreator.php";

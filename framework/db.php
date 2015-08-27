@@ -3,9 +3,8 @@
 namespace framework;
 
 class db {
-
     public static $connection;
-    public static function connect($db_server="mysql:host=localhost;dbname=students", $db_user="root", $db_pass="root") {
+    public static function connect($db_server, $db_user, $db_pass) {
         error_log("db");
         if(!self::$connection){
             try{
@@ -17,5 +16,4 @@ class db {
         }
         return self::$connection;
     }
-
 }
