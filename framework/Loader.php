@@ -4,8 +4,7 @@ namespace framework;
 
 function autoload_framework($class)
 {
-    $file = '../'.$class.'.php'; //'/framework/'.$class.'.php'; .__NAMESPACE__.'/'
-    error_log("framework ".$file);
+    $file = '../'.$class.'.php';
     if (file_exists($file))
     {
         include $file;
@@ -15,7 +14,6 @@ function autoload_framework($class)
 function autoload_web($class)
 {
     $file = '../web/'.$class.'.php';
-    error_log("web ".$file);
     if (file_exists($file))
     {
         include $file;

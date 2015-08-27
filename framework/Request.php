@@ -7,11 +7,11 @@ class Request
     public $data = array();
 
     function __construct(){
-        if (!empty($_REQUEST['id']))
+        if (!empty($_REQUEST['id']) && is_numeric($_REQUEST['id']) && $_REQUEST['id'] > 0)
         $this->data['id'] = $_REQUEST['id'];
         if (!empty($_REQUEST['fname']))
             $this->data['fname'] = $_REQUEST['fname'];
-        if (!empty($_REQUEST['age']))
+        if (!empty($_REQUEST['age']) && is_numeric($_REQUEST['age']) && $_REQUEST['age'] > 0 && $_REQUEST['age'] < 100)
             $this->data['age'] = $_REQUEST['age'];
         if (!empty($_REQUEST['sname']))
             $this->data['sname'] = $_REQUEST['sname'];
@@ -24,7 +24,7 @@ class Request
         $ready = str_replace(array('/','?'), '/', $_SERVER['REQUEST_URI']);
         $routes = explode('/', $ready);
         if (!empty($routes[1])) {
-            $this->data['controller'] = 'src\\Student\\' . $routes[1];
+            $this->data['controller'] = 'src\\Controller\\' . $routes[1];
         }
         if (!empty($routes[2])) {
             $this->data['action'] = $routes[2];

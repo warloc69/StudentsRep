@@ -1,29 +1,10 @@
 <?php
+header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+header("Cache-Control: no-store, no-cache, must-revalidate");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
 require_once("../framework/Loader.php");
-//$r = new src\Student\Controller();
-//$r->addStudent();
-//require_once("../framework/Student.php");
-//include "../framework/Student.php";
-//$conn = \framework\db::connect();
-//    $re = new framework\Student($conn);
-//$all = $re->find(array('id'=>35));
-//$all = $re->getAll();
-//print_r($all);
-//$re->createStudent("test","strst","men",12,"ssss","wasda");
-   // $re->id = 1;
-   // echo $re->getFname();
-// $re->setFname("curvam25");
-//$re->setAge(22);
-//echo $re->id;
-// echo uniqid();
-  //  echo phpinfo();
-
 $r = new \framework\Request();
- print_r($r->data);
-//print_r($_REQUEST);
-//print_r($_SERVER);
-//print_r($_POST);
-
- include_once "Renderer.php";
-   \framework\Route::execute($r);
-	?>
+include_once "../src/View/Renderer.php";
+\framework\Route::execute($r);

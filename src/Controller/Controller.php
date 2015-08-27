@@ -1,5 +1,5 @@
 <?php
-namespace src\Student;
+namespace src\Controller;
 
 class controller
 {
@@ -9,21 +9,22 @@ class controller
     }
     public function removeStudent($data)
     {
-        error_log("controller remove student");
-        $re = new \framework\Student(\framework\db::connect());
+        $re = new \src\Model\Student(\framework\db::connect());
         $re->remove($data);
+        header('Location: /web/index.php');
     }
     public function addStudent($data)
     {
-        error_log("controller add student");
-        $re = new \framework\Student(\framework\db::connect());
+        $re = new \src\Model\Student(\framework\db::connect());
         $re->create($data);
+        header('Location: /web/index.php');
 
     }
     public function editStudent($data)
     {
-        $re = new \framework\Student(\framework\db::connect());
+        $re = new \src\Model\Student(\framework\db::connect());
         $re->update($data);
+        header('Location: /web/index.php');
     }
 
 

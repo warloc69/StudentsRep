@@ -17,11 +17,11 @@
                         <div class="controls">
                             <input type="text" class="form-control" onblur='if(this.value=="") this.placeholder="Имя"'
                                    onfocus='if(this.value=="Имя") this.value=""'
-                                   placeholder="Имя" id="fname" name="fname" />
+                                   placeholder="Имя" id="fname" name="fname" maxlength="100" />
                             <p class="help-block"></p>
                             <input type="text" class="form-control" onblur='if(this.value=="") this.placeholder="Фамилия"'
                                    onfocus='if(this.value=="Фамилия") this.value=""'
-                                   placeholder="Фамилия" id="sname" name="sname"/>
+                                   placeholder="Фамилия" id="sname" name="sname" maxlength="100"/>
                             <p class="help-block"></p>
                             <label> Возраст
                                 <select class="form-control" id="age" name="age" title="Возраст">
@@ -42,11 +42,11 @@
                             <p class="help-block"></p>
                             <input type="text" class="form-control" onblur='if(this.value=="") this.placeholder="Группа"'
                                    onfocus='if(this.value=="Группа") this.value=""'
-                                   placeholder="Группа" id="group_univer" name="group_univer"  />
+                                   placeholder="Группа" id="group_univer" name="group_univer"  maxlength="100"/>
                             <p class="help-block"></p>
                             <input type="text" class="form-control" onblur='if(this.value=="") this.placeholder="Факультет"'
                                    onfocus='if(this.value=="Факультет") this.value=""'
-                                   placeholder="Факультет" id="faculty" name="faculty" />
+                                   placeholder="Факультет" id="faculty" name="faculty"  maxlength="100"/>
                             <p class="help-block"></p>
                         </div>
                     </div>

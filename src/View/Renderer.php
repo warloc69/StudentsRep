@@ -25,7 +25,7 @@
        </thead>
         <tbody>
                 <?php
-                $re = new framework\Student(\framework\db::connect());
+                $re = new src\Model\Student(\framework\db::connect());
                 $all = $re->getAll();
                 foreach($all as $k=>$v) {
                     echo '<tr>';
@@ -37,8 +37,14 @@
                             $id = $value;
                         }
                     }
-                    echo '<td>'."<a href=\"../controller/removeStudent?id=".$id.'">X</a></td>';
-                    echo '<td>'."<a href=\"../controller/editView?id=".$id.'">Edit</a></td>';
+                    echo '<td>'."<a href=\"../controller/removeStudent?id=".$id.'">';
+                    echo '<div id="browse_app"> ';
+                    echo '<button class="btn btn-large btn-danger" type="button">Удалить</button>';
+                    echo '</div></a></td>';
+                    echo '<td>'."<a href=\"../controller/editView?id=".$id.'">';
+                    echo '<div id="browse_app"> ';
+                    echo '<button class="btn btn-large btn-info" type="button">Редактировать</button>';
+                    echo '</div></a></td>';
                     echo '</tr>';
                 }
                 ?>
@@ -47,10 +53,9 @@
         <?php
           if($r->data['action'] == 'editView') {
               include "StudentEditor.php";
-          } else
-              include "StudentCreator.php";
+          }
+        include "StudentCreator.php";
         ?>
-
 </body>
 </html>
 
