@@ -2,7 +2,9 @@
 namespace src\Model {
 
     use framework\ActiveRecord;
-
+ /**
+ *  Realisation of modell class based on ActiveRecord
+ */
     class Student extends ActiveRecord
     {
         public $id = NULL;
