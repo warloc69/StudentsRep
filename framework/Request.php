@@ -1,6 +1,9 @@
 <?php
 namespace framework;
 
+/**
+*  class for accessing  and validation request information
+*/
 
 class Request
 {

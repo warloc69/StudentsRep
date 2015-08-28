@@ -1,6 +1,8 @@
 <?php
 namespace framework;
-
+/**
+*  class for sending headers and pages to client
+*/
 class Response
 {
     private $headers = array();
@@ -9,9 +11,16 @@ class Response
         $this->r = $request;
     }
 
+	/**
+     *  added custom header 
+	 * $header - string representation of headers
+     */
     public function addHeaders($header) {
         $this->headers[] = $header;
     }
+		/**
+     *  added no-cache headers 
+     */
     public function setNoCache() {
 
         $this->headers[] = "Expires: Mon, 26 Jul 1997 05:00:00 GMT";
@@ -19,6 +28,10 @@ class Response
         $this->headers[] = "Pragma: no-cache";
         $this->headers[] = "Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT";
     }
+	/**
+	* sending headers and page to client
+	* $lokation - path to loaded page. Example "../src/View/Renderer.php"
+	*/
     public function printHeader($lokation){
         foreach($this->headers as $head) {
             header($head);

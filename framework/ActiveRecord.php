@@ -1,10 +1,11 @@
 <?php
 namespace framework;
+
 abstract class  ActiveRecord
 {
     protected $db;
     public abstract function getPrimaryIdName();
-    public abstract function getTableName();
+    public abstract function getTableName();	
     private function getColumns($props, $forupdate= false) {
         $result = ' ';
         foreach ($props as $prop) {
@@ -15,6 +16,10 @@ abstract class  ActiveRecord
         $result = substr($result, 0, strlen($result)-2);
         return $result;
     }
+	/**
+     *  pars array with information to class public Properties
+	 *  $data  -map must contains value of properies. Example array( 'id' => 1)
+     */
     public function fillProperty($data) {
         $reflect = new \ReflectionClass($this);
         $props = $reflect->getProperties(\ReflectionProperty::IS_PUBLIC);
@@ -24,6 +29,10 @@ abstract class  ActiveRecord
             }
         }
     }
+	/**
+     *  return Class with information from DB in Properties
+	 *  $data  - map must contains value of primary key. Example array( 'id' => 1)
+     */
     public function find($data) {
         if(empty($data[$this->getPrimaryIdName()]) || $this->db == NULL) throw new \Exception("db works incorrect");
         $reflect = new \ReflectionClass($this);
@@ -32,6 +41,10 @@ abstract class  ActiveRecord
         $statement->execute (array(':'.$this->getPrimaryIdName() => $data[$this->getPrimaryIdName()]));
         return $statement->fetchALL(\PDO::FETCH_CLASS, $reflect->getName(),array($this->db));
     }
+	/**
+     *  delete row from DB
+	 *  $data  - map must contains value of primary key. Example array( 'id' => 1)
+     */
     public  function remove($data) {
         if(empty($data[$this->getPrimaryIdName()]) || $this->db == NULL) throw new \Exception("db works incorrect");
         $sql = "delete from ".$this->getTableName()." where "
@@ -39,6 +52,10 @@ abstract class  ActiveRecord
         $statement = $this->db->prepare($sql);
         $statement->execute (array(':'.$this->getPrimaryIdName() => $data[$this->getPrimaryIdName()]));
     }
+    /**
+     *  return array of Classes with information from DB in Properties
+	 * 
+     */
     public function getAllAsClass(){
         if(empty($data[$this->getTableName()]) || $this->db == NULL) return null;
         $st = $this->db->prepare("SELECT * FROM ".$this->getTableName());
@@ -46,6 +63,10 @@ abstract class  ActiveRecord
         $reflect = new \ReflectionClass($this);
         return $st->fetchALL(\PDO::FETCH_CLASS, $reflect->getName(),array($this->db));
     }
+	 /**
+     *  return array with information from DB
+	 *  
+     */
     public function getAll(){
         if($this->db == NULL) throw new \Exception("db works incorrect");
         $st = $this->db->prepare("SELECT * FROM ".$this->getTableName());
@@ -53,6 +74,10 @@ abstract class  ActiveRecord
         return $st->fetchALL(\PDO::FETCH_ASSOC);
     }
 
+	/**
+     *  update information in DB
+	 *  $data  - map must contains value of properies. Example array( 'id' => 1, 'fname' => 'Helmut')
+     */
     public function update($data) {
         if(empty($data[$this->getPrimaryIdName()])|| $this->db == NULL) throw new \Exception("db works incorrect");
         $reflect = new \ReflectionClass($this);
@@ -69,6 +94,10 @@ abstract class  ActiveRecord
         }
         $statement->execute($arr);
     }
+	/**
+     *  create information in DB
+	 *  $data  - map must contains value of properies. Example array( 'fname' => 'Helmut','age' => '10')
+     */
     public function create($data) {
         if($this->db == NULL) throw new \Exception("db works incorrect");
         $reflect = new \ReflectionClass($this);
@@ -86,6 +115,9 @@ abstract class  ActiveRecord
         $statement->execute($arr);
         $props[$this->getPrimaryIdName()] = $this->db->lastInsertId();
     }
+	/**
+     *  save  class public properies into DB
+     */
     public function save() {
         if(empty($data[$this->getPrimaryIdName()])|| $this->db == NULL) throw new \Exception("db works incorrect");
         $reflect = new \ReflectionClass($this);

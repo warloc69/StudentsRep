@@ -4,8 +4,13 @@ namespace framework;
 
 class db {
     public static $connection;
+	/**
+	*returns connection to DB
+	* $db_server - connection string. example = "mysql:host=localhost;dbname=students" 
+	* $db_user - user name
+	* $db_pass - password
+	*/
     public static function connect($db_server, $db_user, $db_pass) {
-        error_log("db");
         if(!self::$connection){
             try{
                 self::$connection = new \PDO($db_server, $db_user, $db_pass);
