@@ -1,5 +1,9 @@
 <?php
-$student = new \src\Model\Student(\framework\db::connect());
+$student = new \src\Model\Student(\framework\db::connect(
+    \framework\ConfigHolder::getConfig('connection_string'),
+    \framework\ConfigHolder::getConfig('user'),
+    \framework\ConfigHolder::getConfig('pass')
+));
 $st = $student->find($r->data)[0];
 ?>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="editStudent" aria-hidden="false">

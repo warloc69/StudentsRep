@@ -1,11 +1,16 @@
 <?php
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-header("Cache-Control: no-store, no-cache, must-revalidate");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
-require_once("../framework/Loader.php");
-\framework\ConfigHolder::load();
-$r = new \framework\Request();
-include_once "../src/View/Renderer.php";
-\framework\Route::execute($r);
+try {
+    require_once("../framework/Loader.php");
+    \framework\ConfigHolder::load();
+    $r = new \framework\Request();
+    \framework\Route::execute($r);
+    $response = new \framework\Response($r);
+    $response->setNoCache();
+    $response->printHeader("../src/View/Renderer.php");
+} catch (Exception $e) {
+    error_log($e->getTraceAsString());
+    $response = new \framework\Response(array("error"=> $e->getTraceAsString()));
+    $response->setNoCache();
+    $response->printHeader("../src/View/Renderer.php");
+}
+

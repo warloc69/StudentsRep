@@ -29,7 +29,7 @@ class controller
         header('Location: /web/index.php');
 
     }
-    public function editStudent($data)
+        public function editStudent($data)
     {
         $re = new \src\Model\Student(\framework\db::connect(
             ConfigHolder::getConfig('connection_string'),

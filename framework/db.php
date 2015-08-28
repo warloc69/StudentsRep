@@ -11,7 +11,7 @@ class db {
                 self::$connection = new \PDO($db_server, $db_user, $db_pass);
             } catch (\PDOException $e) {
                 self::$connection = null;
-                die($e->getMessage());
+                error_log($e->getMessage());
             }
         }
         return self::$connection;

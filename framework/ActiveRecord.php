@@ -25,7 +25,7 @@ abstract class  ActiveRecord
         }
     }
     public function find($data) {
-        if(empty($data[$this->getPrimaryIdName()])) return null;
+        if(empty($data[$this->getPrimaryIdName()]) || $this->db == NULL) throw new \Exception("db works incorrect");
         $reflect = new \ReflectionClass($this);
         $statement = $this->db->prepare("SELECT * FROM ".$this->getTableName()." where "
             .$this->getPrimaryIdName()."=:".$this->getPrimaryIdName());
@@ -33,26 +33,28 @@ abstract class  ActiveRecord
         return $statement->fetchALL(\PDO::FETCH_CLASS, $reflect->getName(),array($this->db));
     }
     public  function remove($data) {
-        if(empty($data[$this->getPrimaryIdName()])) return null;
+        if(empty($data[$this->getPrimaryIdName()]) || $this->db == NULL) throw new \Exception("db works incorrect");
         $sql = "delete from ".$this->getTableName()." where "
             .$this->getPrimaryIdName()."=:".$this->getPrimaryIdName();
         $statement = $this->db->prepare($sql);
         $statement->execute (array(':'.$this->getPrimaryIdName() => $data[$this->getPrimaryIdName()]));
     }
     public function getAllAsClass(){
+        if(empty($data[$this->getTableName()]) || $this->db == NULL) return null;
         $st = $this->db->prepare("SELECT * FROM ".$this->getTableName());
         $st->execute();
         $reflect = new \ReflectionClass($this);
         return $st->fetchALL(\PDO::FETCH_CLASS, $reflect->getName(),array($this->db));
     }
     public function getAll(){
+        if($this->db == NULL) throw new \Exception("db works incorrect");
         $st = $this->db->prepare("SELECT * FROM ".$this->getTableName());
         $st->execute();
         return $st->fetchALL(\PDO::FETCH_ASSOC);
     }
 
     public function update($data) {
-        if(empty($data[$this->getPrimaryIdName()])) return null;
+        if(empty($data[$this->getPrimaryIdName()])|| $this->db == NULL) throw new \Exception("db works incorrect");
         $reflect = new \ReflectionClass($this);
         $props = $reflect->getProperties(\ReflectionProperty::IS_PUBLIC);
         $this->fillProperty($data);
@@ -68,6 +70,7 @@ abstract class  ActiveRecord
         $statement->execute($arr);
     }
     public function create($data) {
+        if($this->db == NULL) throw new \Exception("db works incorrect");
         $reflect = new \ReflectionClass($this);
         $props = $reflect->getProperties(\ReflectionProperty::IS_PUBLIC);
         $this->fillProperty($data);
@@ -84,6 +87,7 @@ abstract class  ActiveRecord
         $props[$this->getPrimaryIdName()] = $this->db->lastInsertId();
     }
     public function save() {
+        if(empty($data[$this->getPrimaryIdName()])|| $this->db == NULL) throw new \Exception("db works incorrect");
         $reflect = new \ReflectionClass($this);
         $props = $reflect->getProperties(\ReflectionProperty::IS_PUBLIC);
         $data = array();
